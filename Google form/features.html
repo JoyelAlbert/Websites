@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Website Features Survey</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('download (1).jfif');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;      padding: 30px;
+      margin: 0;
+    }
+
+    .form-container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    .question-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 80px;
+      padding: 8px;
+      font-size: 14px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .submit {
+      background: #007BFF;
+      color: white;
+      padding: 12px;
+      border: none;
+      width: 100%;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .submit:hover {
+      background-color: #0056b3;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 15px;
+      }
+
+      .form-container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <h2>Website Features Survey</h2>
+
+  <form id="surveyForm" method="POST"
+        action="https://script.google.com/macros/s/AKfycbwR_sQilLUTRqHVDL3E1rDdBcCzKPxRMTAGKyXYWMTE7T6GNvEGV_J8sUVoC_e_VEg/exec"
+        onsubmit="prepareHiddenFields()">
+
+    <!-- Question 1 -->
+    <div class="question-group">
+      <label>1.) Would you be interested in a website where you can post or find local sports contests/tournaments?</label>
+      <label><input type="radio" name="q1" value="Yes" required> Yes</label>
+      <label><input type="radio" name="q1" value="No"> No</label>
+    </div>
+
+    <!-- Question 2 -->
+    <div class="question-group">
+      <label>2.) What features would you like to see?</label>
+      <label><input type="checkbox" name="features" value="Post contests/tournaments"> Post contests/tournaments</label>
+      <label><input type="checkbox" name="features" value="Contact other teams"> Contact other teams</label>
+      <label><input type="checkbox" name="features" value="Register as a team/player"> Register as a team/player</label>
+      <label><input type="checkbox" name="features" value="View tournament schedules"> View tournament schedules</label>
+      <label><input type="checkbox" name="features" value="Get match updates/reminders"> Get match updates/reminders</label>
+      <label><input type="checkbox" name="features" value="Team ratings/reviews"> Team ratings/reviews</label>
+      <label><input type="checkbox" name="features" value="All the above"> All the above</label>
+      <label><input type="checkbox" id="other_checkbox" value="Others" onclick="toggleOther()"> Others</label>
+      <div id="other-feature-box" style="display: none;">
+        <textarea id="other_features" name="other_features" placeholder="Specify other features..."></textarea>
+      </div>
+    </div>
+
+    <!-- Question 3 -->
+    <div class="question-group">
+      <label>3.) How often do you or your team participate?</label>
+      <label><input type="radio" name="q3" value="Weekly" required> Weekly</label>
+      <label><input type="radio" name="q3" value="Monthly"> Monthly</label>
+      <label><input type="radio" name="q3" value="Occasionally"> Occasionally</label>
+      <label><input type="radio" name="q3" value="Rarely"> Rarely</label>
+      <label><input type="radio" name="q3" value="Never"> Never</label>
+    </div>
+
+    <!-- Question 4 -->
+    <div class="question-group">
+      <label>4.) Would you pay for premium features?</label>
+      <label><input type="radio" name="q4" value="Yes" required> Yes</label>
+      <label><input type="radio" name="q4" value="Maybe"> Maybe</label>
+      <label><input type="radio" name="q4" value="No"> No</label>
+    </div>
+
+    <!-- Question 5 -->
+    <div class="question-group">
+      <label>5.) Want to be notified of games?</label>
+      <label><input type="radio" name="q5" value="Yes" required> Yes</label>
+      <label><input type="radio" name="q5" value="No"> No</label>
+    </div>
+
+    <!-- Question 6 -->
+    <div class="question-group">
+      <label>6.) Be an early tester/promoter?</label>
+      <label><input type="radio" name="q6" value="Yes" required> Yes</label>
+      <label><input type="radio" name="q6" value="No"> No</label>
+    </div>
+
+    <!-- Question 7 -->
+    <div class="question-group">
+      <label>7.) Suggestions or improvements?</label>
+      <textarea name="q7" id="q7" placeholder="Your thoughts..."></textarea>
+    </div>
+
+    <!-- Hidden Fields -->
+    <input type="hidden" name="interest" id="interest">
+    <input type="hidden" name="name" id="name">
+    <input type="hidden" name="email" id="email">
+    <input type="hidden" name="phone" id="phone">
+    <input type="hidden" name="city" id="city">
+    <input type="hidden" name="reason" id="reason">
+    <input type="hidden" name="sports" id="sports">
+    <input type="hidden" name="role" id="role">
+    <input type="hidden" name="q2" id="q2_hidden">
+
+    <input type="submit" class="submit" value="Submit">
+  </form>
+</div>
+
+<script>
+function toggleOther() {
+  document.getElementById("other-feature-box").style.display =
+    document.getElementById("other_checkbox").checked ? "block" : "none";
+}
+
+function prepareHiddenFields() {
+  document.getElementById("interest").value = localStorage.getItem("interest") || "";
+  document.getElementById("name").value = localStorage.getItem("name") || "";
+  document.getElementById("email").value = localStorage.getItem("email") || "";
+  document.getElementById("phone").value = localStorage.getItem("phone") || "";
+  document.getElementById("city").value = localStorage.getItem("city") || "";
+  document.getElementById("reason").value = localStorage.getItem("reason") || "";
+
+  const sports = JSON.parse(localStorage.getItem("sports") || "[]");
+  const role = JSON.parse(localStorage.getItem("role") || "[]");
+  document.getElementById("sports").value = sports.join(", ");
+  document.getElementById("role").value = role.join(", ");
+
+  // Combine selected features + "Other" if present
+  let features = Array.from(document.querySelectorAll('input[name="features"]:checked'))
+    .map(cb => cb.value);
+
+  if (document.getElementById("other_checkbox").checked) {
+    const otherVal = document.getElementById("other_features").value.trim();
+    if (otherVal) features.push(otherVal);
+  }
+
+  document.getElementById("q2_hidden").value = features.join(", ");
+}
+</script>
+
+</body>
+</html>

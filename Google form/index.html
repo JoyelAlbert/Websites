@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sports Hub Survey</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-image: url(download\ \(1\).jpg);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .form-container {
+      background-color: white;
+      padding: 30px 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 20px;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    textarea {
+      height: 100px;
+      resize: vertical;
+    }
+
+    .radio-group label {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    .section {
+      display: none;
+      margin-top: 20px;
+    }
+
+    button {
+      margin-top: 25px;
+      padding: 10px;
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #0f5dc0;
+    }
+
+    @media (max-width: 600px) {
+      .form-container {
+        padding: 20px;
+      }
+
+      input[type="text"],
+      input[type="tel"],
+      textarea {
+        font-size: 15px;
+        padding: 8px;
+      }
+
+      button {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Sports Hub Survey</h2>
+
+    <label>Do you have interest in the website?</label>
+    <div class="radio-group">
+      <label><input type="radio" name="agree" value="yes" onclick="handleChoice('yes')"> Yes</label>
+      <label><input type="radio" name="agree" value="no" onclick="handleChoice('no')"> No</label>
+    </div>
+
+    <!-- YES SECTION -->
+    <div id="yesSection" class="section">
+      <label>Enter your name <span style="color:red">*</span></label>
+      <input type="text" id="nameYes" placeholder="Enter your name" required>
+
+      <label>Enter your email</label>
+      <input type="text" id="email" placeholder="Enter your email">
+
+      <label>Enter your phone number</label>
+      <input type="tel" id="number" placeholder="Enter your phone number" pattern="[0-9]{10}">
+
+      <label>Enter your city</label>
+      <input type="text" id="city" placeholder="Enter your city">
+      
+      <button onclick="goToNext()">Next Page</button>
+    </div>
+
+    <!-- NO SECTION -->
+    <div id="noSection" class="section">
+      <label>Enter your name <span style="color:red">*</span></label>
+      <input type="text" id="nameNo" placeholder="Enter your name" required>
+
+      <label>Why did you select "No"? <span style="color:red">*</span></label>
+      <textarea id="reasonNo" placeholder="Type your reason here..." required></textarea>
+
+      <button onclick="submitNoForm()">Submit</button>
+    </div>
+  </div>
+
+  <script>
+    function handleChoice(choice) {
+      const yesSection = document.getElementById('yesSection');
+      const noSection = document.getElementById('noSection');
+
+      if (choice === 'yes') {
+        yesSection.style.display = 'block';
+        noSection.style.display = 'none';
+      } else {
+        yesSection.style.display = 'none';
+        noSection.style.display = 'block';
+      }
+
+      localStorage.setItem("interest", choice);
+    }
+
+    function goToNext() {
+      const name = document.getElementById("nameYes").value.trim();
+      if (!name) {
+        alert("Name is required.");
+        return;
+      }
+
+      localStorage.setItem("interest", "yes");
+      localStorage.setItem("name", name);
+      localStorage.setItem("email", document.getElementById("email").value.trim());
+      localStorage.setItem("phone", document.getElementById("number").value.trim());
+      localStorage.setItem("city", document.getElementById("city").value.trim());
+      localStorage.setItem("reason", "");
+
+      window.location.href = "sports.html";
+    }
+
+    function submitNoForm() {
+      const name = document.getElementById("nameNo").value.trim();
+      const reason = document.getElementById("reasonNo").value.trim();
+
+      if (!name) {
+        alert("Name is required.");
+        return;
+      }
+      if (!reason) {
+        alert("Reason is required.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("interest", "no");
+      formData.append("name", name);
+      formData.append("email", "");
+      formData.append("phone", "");
+      formData.append("city", "");
+      formData.append("reason", reason);
+      formData.append("sports", "");
+      formData.append("role", "");
+      formData.append("q1", "");
+      formData.append("q2", "");
+      formData.append("q3", "");
+      formData.append("q4", "");
+      formData.append("q5", "");
+      formData.append("q6", "");
+      formData.append("q7", "");
+
+      fetch("https://script.google.com/macros/s/AKfycbwR_sQilLUTRqHVDL3E1rDdBcCzKPxRMTAGKyXYWMTE7T6GNvEGV_J8sUVoC_e_VEg/exec", {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.text())
+      .then(response => {
+        alert("Thank you! Your response was submitted.");
+        window.location.reload();
+      })
+      .catch(err => {
+        alert("Submission failed: " + err.message);
+      });
+    }
+  </script>
+</body>
+</html>

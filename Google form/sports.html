@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sports Interests</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-image: url('download (1).jfif');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    .form-container {
+      background-color: white;
+      padding: 30px 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #202124;
+      margin-bottom: 30px;
+      font-size: 24px;
+    }
+
+    .question {
+      margin-bottom: 30px;
+    }
+
+    label.question-title {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .checkbox-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    .other-input {
+      display: none;
+      margin-top: 10px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 15px;
+    }
+
+    button {
+      padding: 12px;
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #0f5dc0;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 10px;
+        align-items: flex-start;
+      }
+
+      .form-container {
+        padding: 20px 20px;
+        box-shadow: none;
+        border-radius: 6px;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+      label.question-title {
+        font-size: 15px;
+      }
+
+      input[type="text"] {
+        font-size: 14px;
+      }
+
+      button {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h1>Sports Interests</h1>
+
+    <div class="question">
+      <label class="question-title">1.) Which sports are you playing?</label>
+      <div class="checkbox-group" id="sports">
+        <label><input type="checkbox" value="Cricket"> Cricket</label>
+        <label><input type="checkbox" value="Football"> Football</label>
+        <label><input type="checkbox" value="Volleyball"> Volleyball</label>
+        <label><input type="checkbox" value="Badminton"> Badminton</label>
+        <label><input type="checkbox" value="Kabaddi"> Kabaddi</label>
+        <label><input type="checkbox" value="Basketball"> Basketball</label>
+        <label><input type="checkbox" id="otherCheckbox" onclick="toggleOtherInput()" value="Others"> Others</label>
+        <div id="otherInput" class="other-input">
+          <input type="text" id="otherSport" placeholder="Please specify...">
+        </div>
+      </div>
+    </div>
+
+    <div class="question">
+      <label class="question-title">2.) Are you a...</label>
+      <div class="checkbox-group" id="role">
+        <label><input type="checkbox" value="Team Captain"> Team Captain</label>
+        <label><input type="checkbox" value="Player"> Player</label>
+        <label><input type="checkbox" value="Tournament Organizer"> Tournament Organizer</label>
+        <label><input type="checkbox" value="Coach"> Coach</label>
+        <label><input type="checkbox" value="Viewer/Fan"> Viewer/Fan</label>
+      </div>
+    </div>
+
+    <button onclick="goToNext()">Next Page</button>
+  </div>
+
+  <script>
+    function toggleOtherInput() {
+      const otherInput = document.getElementById("otherInput");
+      otherInput.style.display = document.getElementById("otherCheckbox").checked ? "block" : "none";
+    }
+
+    function goToNext() {
+      const selectedSports = Array.from(document.querySelectorAll('#sports input[type="checkbox"]:checked'))
+        .map(cb => cb.value);
+
+      if (document.getElementById("otherCheckbox").checked) {
+        const otherValue = document.getElementById("otherSport").value.trim();
+        if (otherValue) selectedSports.push(otherValue);
+      }
+
+      const selectedRoles = Array.from(document.querySelectorAll('#role input[type="checkbox"]:checked'))
+        .map(cb => cb.value);
+
+      localStorage.setItem("sports", JSON.stringify(selectedSports));
+      localStorage.setItem("role", JSON.stringify(selectedRoles));
+
+      window.location.href = "features.html";
+    }
+  </script>
+</body>
+</html>
